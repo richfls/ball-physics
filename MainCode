@@ -1,0 +1,150 @@
+import pygame
+import random
+import math
+pygame.init()#initializes Pygame
+pygame.display.set_caption("Mouse events")#sets the window title
+screen = pygame.display.set_mode((800, 800))#creates game screen
+clock = pygame.time.Clock()
+
+def collision(x1, y1, x2, y2):
+   #LINE ERASED: YOU MAKE A GUESS HERE!
+    if math.sqrt((x2-x1)**2 + (y2-y1)**2<600):
+        print("collision!")
+        return True
+    else:
+        return False
+
+#initial ball1 position
+ball1x=random.randrange(100, 700)
+ball1y=random.randrange(100, 700)
+#initial ball1 velocity
+Vx1 = random.randrange(3, 10)
+Vy1 = random.randrange(3, 10)
+
+
+#initial ball2 position
+ball2x=random.randrange(100, 700)
+ball2y=random.randrange(100, 700)
+#initial ball1 velocity
+Vx2 = random.randrange(3, 10)
+Vy2 = random.randrange(3, 10)
+
+ball3x=random.randrange(100, 700)
+ball3y=random.randrange(100, 700)
+#initial ball1 velocity
+Vx3 = random.randrange(3, 10)
+Vy3 = random.randrange(3, 10)
+
+ball4x=random.randrange(100, 700)
+ball4y=random.randrange(100, 700)
+#initial ball1 velocity
+Vx4 = random.randrange(3, 10)
+Vy4 = random.randrange(3, 10)
+
+while True:
+    
+    #event queue and timer
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: #close game window
+            pygame.quit()
+            quit()
+    
+    #check for collision!
+    if collision(ball1x, ball1y, ball2x, ball2y) == True:
+        #THIS IS NOT REAL PHYSICS!
+        #We'll hopefully modify this later to get it to be more realistic
+        Vx1*=-1
+        Vy1*=-1
+        Vx2*=-1
+        Vy2*=-1
+        print("boing!")
+    if collision( ball3x, ball3y, ball4x, ball4y) == True:
+        Vx3*=-1
+        Vy3*=-1
+        Vx4*=-1
+        Vy4*=-1
+    if collision( ball1x, ball1y, ball4x, ball4y) == True:
+        Vx1*=-1
+        Vy1*=-1
+        Vx4*=-1
+        Vy4*=-1
+    if collision( ball2x, ball2y, ball4x, ball4y) == True:
+        Vx2*=-1
+        Vy2*=-1
+        Vx4*=-1
+        Vy4*=-1
+    if collision( ball3x, ball3y, ball1x, ball1y) == True:
+        Vx3*=-1
+        Vy3*=-1
+        Vx1*=-1
+        Vy1*=-1
+    if collision( ball3x, ball3y, ball2x, ball2y) == True:
+        Vx3*=-1
+        Vy3*=-1
+        Vx2*=-1
+        Vy2*=-1
+    #reflect off walls
+    if ball1y+30>800 or ball1y-30<0:
+        Vy1*=-1
+    if ball1x+30>800 or ball1x-30<0:
+        Vx1*=-1
+        
+    if ball2y+30>800 or ball2y-30<0:
+        Vy2*=-1
+    if ball2x+30>800 or ball2x-30<0:
+        Vx2*=-1
+        
+    if ball3y+30>800 or ball3y-30<0:
+        Vy3*=-1
+    if ball3x+30>800 or ball3x-30<0:
+        Vx3*=-1
+        
+    if ball4y+30>800 or ball4y-30<0:
+        Vy4*=-1
+    if ball4x+30>800 or ball4x-30<0:
+        Vx4*=-1
+    
+    #apply gravity
+    if ball1y+20<800:
+        Vy1+=.1
+    if ball2y+20<800:
+        Vy2+=.1
+    if ball3y+20<800:
+        Vy3+=.1
+    if ball4y+20<800:
+        Vy4+=.1
+    ball1y+=Vy1
+    ball1x+=Vx1
+    
+    ball2y+=Vy2
+    ball2x+=Vx2
+    
+    ball3y+=Vy3
+    ball3x+=Vx3
+    
+    ball4y+=Vy4
+    ball4x+=Vx4
+    
+    
+    
+    #apply friction
+    Vx1*=.99
+    Vy1*=.99
+    Vx2*=.99
+    Vy2*=.99
+    Vx3*=.99
+    Vy3*=.99
+    Vx4*=.99
+    Vy4*=.99
+    
+    #render section
+    screen.fill((0,0,0))
+    pygame.draw.circle(screen, (255, 255, 255), (ball1x, ball1y), 20)
+    pygame.draw.circle(screen, (255, 255, 255), (ball2x, ball2y), 20)
+    pygame.draw.circle(screen, (255, 255, 255), (ball3x, ball3y), 20)
+    pygame.draw.circle(screen, (255, 255, 255), (ball4x, ball4y), 20)
+    pygame.display.flip()
+    #end game loop##############################################
+
+pygame.quit()
